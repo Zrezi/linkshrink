@@ -30,7 +30,7 @@ public class LinkService {
     @GetMapping("/{encoded}")
     public void redirect(@PathVariable("encoded") String encoded, HttpServletResponse response) {
         logger.info("GET Request " + encoded);
-        System.out.println("GET");
+
         LinkEntity redirect = linkBo.find(encoded, response);
         if (redirect != null) {
             response.setHeader("Location", redirect.getDecoded());
@@ -43,7 +43,7 @@ public class LinkService {
     @PostMapping("/")
     public String save(@RequestBody Link link, HttpServletResponse response) {
         logger.info("POST Request " + link.getDecoded());
-        System.out.println("POST");
+
         if (LinkUtil.isValidUrl(link.getDecoded())) {
             LinkEntity linkEntity = linkBo.save(link.getDecoded());
             return linkEntity.getEncoded();
