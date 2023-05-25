@@ -1,21 +1,27 @@
 package dev.reznicek.linkshrink.service;
 
 import dev.reznicek.linkshrink.bo.LinkBo;
-import dev.reznicek.linkshrink.model.rest.Link;
 import dev.reznicek.linkshrink.model.entity.LinkEntity;
+import dev.reznicek.linkshrink.model.rest.Link;
 import dev.reznicek.linkshrink.util.LinkUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 
-@RestController
+@Controller
 public class LinkService {
 
     private static final Logger logger = LogManager.getLogger(LinkService.class);
@@ -27,7 +33,21 @@ public class LinkService {
         this.linkBo = linkBo;
     }
 
-    @GetMapping("/{encoded}")
+    @RequestMapping(method = RequestMethod.GET, value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<Resource> getHtmlFile() {
+        logger.info("GET Request");
+
+        try {
+            Resource resource = new ClassPathResource("static/ui.html");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_HTML)
+                    .body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{encoded}")
     public void redirect(@PathVariable("encoded") String encoded, HttpServletResponse response) {
         logger.info("GET Request " + encoded);
 
@@ -41,6 +61,7 @@ public class LinkService {
     }
 
     @PostMapping("/")
+    @ResponseBody
     public String save(@RequestBody Link link, HttpServletResponse response) {
         logger.info("POST Request " + link.getDecoded());
 

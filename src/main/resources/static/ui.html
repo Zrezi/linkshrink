@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Zach Reznicek" />
+    <meta
+      name="description"
+      content="Development portfolio for Zach Reznicek"
+    />
+    <meta name="og:title" content="Title of the webpage" />
+    <meta name="og:description" content="Description of the webpage" />
+    <meta name="og:image" content="URL of the image" />
+    <meta name="robots" content="index, follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LinkShrink &mdash; reznicek.dev</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <a href="https://reznicek.dev">&leftarrow; Home</a>
+      <h1><span class="title">LinkShrink</span></h1>
+      <p>A link shortening service accessible with cURL.</p>
+      <div style="height: 2em"></div>
+      <h3>Try It Out</h3>
+      <div class="codeblock">
+        <pre>
+curl -X POST https://reznicek.dev/linkshrink \
+     -H "Content-Type: application/json" \
+     -d "{\"decoded\": \"https://www.google.com\"}"</pre
+        >
+      </div>
+      <p>
+        When you shorten a URL with LinkShrink, you'll be provided with an
+        8-character identifier. Simply concatenate this identifier to the domain
+        and send a GET request to access the link.
+      </p>
+      <p>This example request will redirect you to Google!</p>
+      <div class="codeblock">
+        <pre>curl -X GET https://reznicek.dev/linkshrink/d2abbfe2 -L</pre>
+      </div>
+      <div style="height: 1.5em"></div>
+      <h3>How It Works</h3>
+      <div class="hiw">
+        <p>
+          Make sure the link is valid; that it fits all HTTP standards and is
+          the correct format.
+        </p>
+      </div>
+      <div style="height: 1em"></div>
+      <div class="hiw hiw-r">
+        <p>Check if the link has already been saved before.</p>
+      </div>
+      <div style="height: 1em"></div>
+      <div class="hiw">
+        <p>
+          Generate a random unique identifier for the link. Ensure this new
+          identifier doesn't accidentally already exist before continuing.
+        </p>
+      </div>
+      <div style="height: 1em"></div>
+      <div class="hiw hiw-r">
+        <p>
+          Save the match in a database, and then return it to the user. The link
+          is ready to be used!
+        </p>
+      </div>
+      <div style="height: 2em"></div>
+      <p class="remark">
+        This is a Proof-of-Concept SpringBoot application meant only for
+        educational and not serious production purposes. You can find more
+        information about it on my GitHub
+        <a href="https://www.github.com/zrezi/linkshrink" target="_blank"
+          >here.</a
+        >
+      </p>
+    </div>
+  </body>
+</html>
